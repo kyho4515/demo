@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank", "Bank\Bank.csproj", "{3163EF0F-1F9C-449F-924B-7DB85FF3699F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test1", "..\test1\test1\test1.csproj", "{C94B83B0-FFE6-43B7-96CF-CAA23404B6F3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3163EF0F-1F9C-449F-924B-7DB85FF3699F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3163EF0F-1F9C-449F-924B-7DB85FF3699F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3163EF0F-1F9C-449F-924B-7DB85FF3699F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3163EF0F-1F9C-449F-924B-7DB85FF3699F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C94B83B0-FFE6-43B7-96CF-CAA23404B6F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C94B83B0-FFE6-43B7-96CF-CAA23404B6F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C94B83B0-FFE6-43B7-96CF-CAA23404B6F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C94B83B0-FFE6-43B7-96CF-CAA23404B6F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
