@@ -9,28 +9,30 @@ namespace test1
   [TestClass]
   public class BankAccountTests
   {
-    private static string _TestFail;
-    private static bool _IsFail;
-    private static StreamWriter file = new StreamWriter("D:/SourceControl/Victor Ho/testfail.txt");
+    private string _TestFail;
+    private string _TestSuc;
+    private bool _IsFail;
+    private static StreamWriter file = new StreamWriter("D:/SourceControl/Victor Ho/report.txt");
 
     [ClassInitialize]
     public static void Init(TestContext x)
     {
-      file.Write("The bugs in debit function are:");
+      file.Write("The report about debit function is:");
       file.WriteLine();
     }
+
     [TestCleanup]
     public void TestClean()
     {
-
+      if (_IsFail)
+      {
         file.Write(_TestFail);
-        file.WriteLine();
-
-    }
-    [TestInitialize]
-    public void TestInit()
-    {
-      _IsFail = false;
+      }
+      else
+      {
+        file.Write(_TestSuc);
+      }
+      file.WriteLine();
     }
 
     [ClassCleanup]
@@ -38,14 +40,9 @@ namespace test1
     {
       file.Close();
     }
-    [TestMethod]
-    public void AllBug()
+
+    private void AllDebug(double beginningBalance, double debitAmount, double expectedInt, string expectedStr = "Nothing")
     {
-      double beginningBalance = 11.99;
-      double debitAmount = 3.55;
-      double expected = 7.44;
-      bool IsCatchExceed = false;
-      bool IsCatchLess = false;
       BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
       try
       {
@@ -53,132 +50,64 @@ namespace test1
       }
       catch(ArgumentOutOfRangeException e)
       {
-        
-        if(e.Message == BankAccount.DebitAmountExceedsBalanceMessage)
+        try
         {
-          StringAssert.Contains(e.Message, BankAccount.DebitAmountExceedsBalanceMessage);
-          IsCatchExceed = true;
-          _IsFail = false;
-          _TestFail = "Debit amount exceeding balance problem is OK";
+          StringAssert.Contains (e.Message, expectedStr);
         }
-        else
+        catch (AssertFailedException)
         {
-          StringAssert.Contains(e.Message, BankAccount.DebitAmountLessThanZeroMessage);
-          IsCatchLess = true;
-          _IsFail = false;
-          _TestFail = "Debit amount less than balance problem is OK";
+          _IsFail = true;
+          if (expectedInt < 0)
+          {
+            _TestFail = "Throwing incorrect exception message";
+            StringAssert.Contains (e.Message, expectedStr);
+          }
+          else
+          {
+            _TestFail = "Throwing exception at incorrect condition";
+            Assert.Fail ("We don't expect any exception");
+          }
         }
       }
-      double actual = account.Balance;
-      if (debitAmount > beginningBalance && !IsCatchExceed)
+      if (expectedInt < 0)
       {
-        _IsFail = true;
-        _TestFail = BankAccount.DebitAmountExceedsBalanceMessage;
+        _IsFail = false;
+        _TestSuc = "Throwing exception correctly";
+        return;
       }
-      else if (debitAmount < 0 && !IsCatchLess)
-      {
-        _IsFail = true;
-        _TestFail = BankAccount.DebitAmountLessThanZeroMessage;
-      }
-      try
-      {
-        Assert.AreEqual(expected, actual, 0.01, "Account not debited correctly");
-      }
-      catch(AssertFailedException)
-      {
-        _TestFail = "Account not debited correctly";
-        Assert.AreEqual(expected, actual, 0.01, "Account not debited correctly");
-      }
-      _TestFail = "Account debited correctly";
-    }
-
-
-    /*
-    [TestMethod]
-    public void Debit_WithValidAmount_UpdatesBalance()
-    {
-      // arrange 
-      double beginningBalance = 11.99;
-      double debitAmount = 3.55;
-      double expected = 7.44;
-      BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
-      // act
-      account.Debit(debitAmount);
-      // assert
       double actual = account.Balance;
       try
       {
-        Assert.AreEqual(expected, actual, 0.001, "Account not debited correctly");
+        Assert.AreEqual (expectedInt, actual, 0.01, "Account not debited correctly");
       }
       catch (AssertFailedException)
       {
         _IsFail = true;
         _TestFail = "Account not debited correctly";
-        throw new AssertFailedException();
+        Assert.AreEqual (expectedInt, actual, 0.01, "Account not debited correctly");
       }
+      _IsFail = false;
+      _TestSuc = "Account debited correctly";
+    }
+
+
+    [TestMethod]
+    public void Debit_WithValidAmount_UpdatesBalance()
+    {
+      AllDebug(11.99,3.55,7.44);
     }
 
     [TestMethod]
     public void Debit_WhenAmountIsLessThanZero_ShouldThrowArgumentOutOfRange()
     {
-      // arrange
-      double beginningBalance = 11.99;
-      double debitAmount = -5.00;
-      bool iscatch = false;
-      BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
-      // act
-      try
-      {
-        account.Debit(debitAmount);
-      }
-      catch (ArgumentOutOfRangeException e)
-      {
-        // assert
-        iscatch = true;
-        StringAssert.Contains(e.Message, BankAccount.DebitAmountLessThanZeroMessage);
-      }
-      if (!iscatch)
-      {
-        _IsFail = true;
-        _TestFail = "Debit amount less than zero";
-      }
-      // assert is handled by ExpectedException
+      AllDebug(11.99,-5.00,-1,BankAccount.DebitAmountLessThanZeroMessage);
     }
 
      //unit test method
      [TestMethod]
      public void Debit_WhenAmountIsGreaterThanBalance_ShouldThrowArgumentOutOfRange()
      {
-       // arrange
-       double beginningBalance = 11.99;
-       double debitAmount = 100.00;
-       bool iscatch = false;
-       BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
-
-       // act
-       try
-       {
-         account.Debit(debitAmount);
-       }
-       catch (ArgumentOutOfRangeException e)
-       {
-         // assert         
-         iscatch = true;
-         StringAssert.Contains(e.Message, BankAccount.DebitAmountExceedsBalanceMessage);
-       }
-       if (!iscatch)
-       {
-         _IsFail = true;
-         _TestFail = "Debit amount exceeds balance";
-       }
-       
-       default
-       {
-
-       }
-       
-       // assert is handled by ExpectedException
+       AllDebug(11.99,100.00,-1,BankAccount.DebitAmountExceedsBalanceMessage);
      }
-  */
    }
 }

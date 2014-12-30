@@ -40,7 +40,7 @@ namespace BankAccountNS
                 throw new Exception("Account frozen");
             }
 
-            if (amount > m_balance)
+            if (amount < m_balance)
             {
                 throw new ArgumentOutOfRangeException("amount", amount, DebitAmountExceedsBalanceMessage);
             }

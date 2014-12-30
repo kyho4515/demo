@@ -3,3 +3,8 @@ C:\Users\victor.ho\Desktop\Bank\Bank\bin\Debug\Bank.pdb
 C:\Users\victor.ho\Desktop\Bank\Bank\obj\Debug\Bank.csprojResolveAssemblyReference.cache
 C:\Users\victor.ho\Desktop\Bank\Bank\obj\Debug\Bank.dll
 C:\Users\victor.ho\Desktop\Bank\Bank\obj\Debug\Bank.pdb
+C:\Users\victor.ho\Desktop\Bank\Bank\Bank\bin\Debug\Bank.dll
+C:\Users\victor.ho\Desktop\Bank\Bank\Bank\bin\Debug\Bank.pdb
+C:\Users\victor.ho\Desktop\Bank\Bank\Bank\obj\Debug\Bank.csprojResolveAssemblyReference.cache
+C:\Users\victor.ho\Desktop\Bank\Bank\Bank\obj\Debug\Bank.dll
+C:\Users\victor.ho\Desktop\Bank\Bank\Bank\obj\Debug\Bank.pdb
