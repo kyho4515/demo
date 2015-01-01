@@ -87,7 +87,7 @@ namespace test1
         Assert.AreEqual (expectedInt, actual, 0.01, "Account not debited correctly");
       }
       _IsFail = false;
-      _TestSuc = "Account debited correctly";
+      _TestSuc = "Account debited correctly"
     }
 
 
