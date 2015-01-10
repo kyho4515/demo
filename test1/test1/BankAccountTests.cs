@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Data;
+using System.IO;
 using System;
 using System.Windows.Input;
 using BankAccountNS;
@@ -13,6 +14,7 @@ namespace test1
     private string _TestSuc;
     private bool _IsFail;
     private static StreamWriter file = new StreamWriter("D:/SourceControl/Victor Ho/report.txt");
+    public TestContext _TestContext { get; set; }
 
     [ClassInitialize]
     public static void Init(TestContext x)
@@ -87,16 +89,21 @@ namespace test1
         Assert.AreEqual (expectedInt, actual, 0.01, "Account not debited correctly");
       }
       _IsFail = false;
-      _TestSuc = "Account debited correctly"
+      _TestSuc = "Account debited correctly";
     }
 
 
     [TestMethod]
+    [DataSource("ExcelDatasource")]
     public void Debit_WithValidAmount_UpdatesBalance()
     {
-      AllDebug(11.99,3.55,7.44);
+      double beginningBalance = Double.Parse (_TestContext.DataRow ["beginningBalance"].ToString ());
+      double debitAmount = Double.Parse (_TestContext.DataRow ["debitAmount"].ToString ());
+      double expectedInt = Double.Parse (_TestContext.DataRow ["expectedInt"].ToString ());
+      string expectedStr = _TestContext.DataRow ["expectedStr"].ToString ();
+      AllDebug (beginningBalance, debitAmount, expectedInt, expectedStr);
     }
-
+    /*
     [TestMethod]
     public void Debit_WhenAmountIsLessThanZero_ShouldThrowArgumentOutOfRange()
     {
@@ -109,5 +116,7 @@ namespace test1
      {
        AllDebug(11.99,100.00,-1,BankAccount.DebitAmountExceedsBalanceMessage);
      }
+     */
    }
+   
 }
